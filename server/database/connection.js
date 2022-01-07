@@ -13,6 +13,6 @@ conn.connect((error)=>{
     } else {
         console.log('Successfully connected to MySQL database');
     }
-})
+});
 
-module.exports= conn;
+module.exports = {conn};

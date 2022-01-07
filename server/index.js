@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authroute = require('./routes/auth');
 const messageroute = require('./routes/message');
+const databaseGenerator = require('./database/create');
 
 const app = new express();
 app.use(bodyParser.json()); 
