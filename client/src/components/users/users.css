@@ -1,0 +1,52 @@
+.userslist{
+    margin-top: 5vh;
+    overflow: hidden;
+    max-height: 72vh;
+}
+.searchuser{
+    height: 5vh;
+    width: 24vw;
+    border-radius: 30px ;
+    margin-top: 2vh;
+    margin-left: 1vw;
+    border: 1px solid grey;
+    outline: none;
+    padding-left: 1vw;
+}
+.clearbtn{
+    height: 5vh;
+    width: 5vh;
+    font-weight: bolder;
+    border-radius: 5vh;
+    background-color: rgb(235, 223, 223);
+    outline: none;
+}
+.users{
+    height: 90vh;
+    width: 30vw;
+}
+.usercard{
+    height: 8vh;
+    width: 27vw;
+    padding-left: 1vw;
+    margin-bottom: 1vh;
+    margin-left: 1vw;
+    background-color: whitesmoke;
+    margin-right: 1vw;
+    border-radius: 15px;
+}
+.username{
+    font-size: 16pt;
+}
+.usermessage{
+    font-size: 12pt;
+}
+.messageread{
+    height: 3vh;
+    width:  3vh;
+    border-radius: 3vh;
+    background-color: rgb(6, 172, 103);
+    position: absolute;
+    left: 30vw;
+    margin-top: -5vh;
+}

@@ -1,0 +1,105 @@
+.chat{
+    position: absolute;
+    top: 5vh;
+    margin-left: 30vw;
+    width: 60vw;
+    height: 90vh;
+    background-color: rgb(6, 172, 103);
+}
+.receiverarea{
+    background-color: rgb(6, 172, 103);
+    height: 9vh;
+}
+.receivername{
+    padding-left: 10vw;
+    padding-top: 2vh;
+    font-weight: bolder;
+    color: white;
+    font-size: 16pt;
+}
+.messagearea{
+    height: 81vh;
+    width: 40vw;
+    background-color: honeydew;
+}
+.messagesender{
+    margin-left: 1vw;
+    position: absolute;
+    bottom: 0px;
+}
+.messagetyper{
+    height: 5vh;
+    width: 30vw;
+    border-radius: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border: 1px solid grey;
+    outline: none;
+}
+.messagesenderbtn{
+    width: 6vw;
+    height: 6vh;
+    background-color: green;
+    color: white;
+    font-weight: bold;
+    border-radius: 20px;
+    margin-left: 0.5vw;
+}
+.viewuser{
+    height: 35vh;
+    width: 15vw;
+    position: absolute;
+    right: 0vh;
+    background-color: rgb(6, 172, 103);
+    align-items: center;
+}
+.viewreceiver{
+    top: 12vh;
+}
+.viewme{
+    top: 53vh;
+}
+.viewdp{
+    border-radius: 100px;
+    overflow: hidden;
+}
+.viewname{
+    color: white;
+    font-size: 14pt;
+    padding-top: 2vh;
+    padding-left: 2.5vw;
+}
+.viewabout{
+    color: white;
+    padding:1vh;
+    margin-left: -3vw;
+}
+.changedp{
+    height: 5vh;
+    width:  5vh;
+    background-color: white;
+    color: green;
+    font-weight: bold;
+    border-radius: 5vh;
+    margin-left: -5vh;
+    margin-top: -5vh;
+    font-size: 20pt;
+    border: 1px solid grey;
+    outline: none;
+}
+.editname{
+    margin-top: 2vh;
+    padding: 1vh 1vh 1vh 1vh;
+    border: 1px solid grey;
+    outline: none;
+    border-radius: 5px;
+}
+.editabout{
+    margin-top: 1vh;
+    padding: 1vh 1vh 1vh 1vh;
+    width: 15vw;
+    margin-left: -3vw;
+    border: 1px solid grey;
+    outline: none;
+    border-radius: 5px;
+}
