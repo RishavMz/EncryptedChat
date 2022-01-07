@@ -1,0 +1,12 @@
+# dependencies
+client/node_modules/
+
+# production
+client/build/
+
+
+# dependencies
+server/node_modules/
+
+# production
+server/build/
