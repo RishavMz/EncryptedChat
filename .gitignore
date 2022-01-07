@@ -10,3 +10,8 @@ server/node_modules/
 
 # production
 server/build/
+
+
+client/.env
+
+server/.env

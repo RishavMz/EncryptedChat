@@ -22,6 +22,28 @@
     width: 40vw;
     background-color: honeydew;
 }
+.message{
+    height: auto;
+    width: 25vw;
+    max-width: 25vw;
+    margin: 2vh;
+    padding: 2vh;
+    border-radius: 50px;
+    color: white;
+}
+.messagespace{
+    height: 75vh;
+    overflow-y: scroll;
+}
+.messagesent{
+    background-color: rgb(6, 177, 106);
+    right: 10vw;
+    margin-left: 10vw;
+}
+.messagereceived{
+    background-color: grey;
+    left: 10vw;
+}
 .messagesender{
     margin-left: 1vw;
     position: absolute;

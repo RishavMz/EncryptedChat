@@ -1,12 +1,20 @@
+require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const authroute = require('./routes/auth');
+const messageroute = require('./routes/message');
 
 const app = new express();
-const PORT = 5000;
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use('/auth', authroute);
+app.use('/message', messageroute);
 
 app.get('/', (req, res)=> {
     res.send('Got some request');
 });
 
-app.listen(PORT, ()=>{
-    console.log("Server is up and running on port "+PORT);
+app.listen(process.env.PORT, ()=>{
+    console.log("Server is up and running on port "+process.env.PORT);
 })
