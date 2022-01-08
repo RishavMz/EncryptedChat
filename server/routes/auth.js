@@ -6,34 +6,81 @@ const { conn } = require('../database/connection');
 const key = [];
 
 router.post('/register', async(req, res) => {
+    if(req.body.username==null && req.body.firstname==null && req.body.lastname==null && req.body.password==null && req.body.email==null){
+        res.status(400);
+        res.send('Incomplete data');
+    }
     const keys = new rsa();
     keys.generateKeyPair();
     const privatekey = keys.exportKey('private');
     const publickey = keys.exportKey('public');
-    key.push([privatekey, publickey]);
+    await conn.query(`INSERT INTO USERS (USERNAME, FIRSTNAME, LASTNAME, PASSWORD, EMAIL) VALUES(${conn.escape(req.body.username)},${conn.escape(req.body.firstname)},${conn.escape(req.body.lastname)},${conn.escape(req.body.password)},${conn.escape(req.body.email)})`, async(error, result)=>{
+        if(error){
+            throw error;
+        } else {
+            console.log(result);
+            var userID=0;
+            await conn.query(`SELECT ID FROM USERS WHERE USERNAME = ${conn.escape(req.body.username)}`, async(error, result)=>{
+                if(error){
+                    throw error;
+                } else {
+                    userID = result[0].ID;
+                    await conn.query(`INSERT INTO  PUBLIC_KEYS(USER_ID, KEYDATA) VALUES(${conn.escape(userID)},${conn.escape(publickey)})`, async(error, result)=>{
+                        if(error){
+                            throw error;
+                        } else {
+                            console.log(result);
+                        }
+                    });
+                    await conn.query(`INSERT INTO PRIVATE_KEYS (USER_ID, KEYDATA) VALUES(${conn.escape(userID)},${conn.escape(privatekey)})`, async(error, result)=>{
+                        if(error){
+                            throw error;
+                        } else {
+                            console.log(result);
+                        }
+                    });
+                }
+            });
+        }
+    });
     res.status(201);
-    await res.send([privatekey, publickey]);
+    res.send("Success");
 });
 
-router.post('/login', (req, res) => {
-    res.status(200);
-    res.send(key[1]);
+router.post('/login', async(req, res) => {
+    if(req.body.username==null || req.body.password==null){
+        req.status(400);
+        res.send('Incomplete data');
+    }
+    await conn.query(`SELECT ID FROM USERS WHERE USERNAME=${conn.escape(req.body.username)} AND PASSWORD=${conn.escape(req.body.password)}`, async(error, result)=>{
+        if(error){
+            throw error;
+        } else {
+            console.log(result);
+            if(result[0] && result[0].ID){
+                const userID = result[0].ID;
+                console.log(userID);
+                await conn.query(`SELECT KEYDATA FROM PRIVATE_KEYS WHERE USER_ID =${conn.escape(userID)}`, async(error, result)=>{
+                    if(error){
+                        throw error;
+                    } else {
+                        res.status(200);
+                        res.send(result[0].KEYDATA);   
+                    }
+                });
+            } else 
+            {
+                res.status(403);
+                res.send("Incorrect data")
+            }
+            
+        }
+    });
 });
 
 router.post('/logout', (req, res) => {
     res.status(200);
-    res.send("Logged Out");
+    res.send("No session Involved here, nothing to destroy");
 });
-
-router.get('/test', (req, res)=>{
-    const keys = new rsa();
-    var data = "This Is A Test";
-    console.log("Data: ",data);
-    const val = keys.importKey(key[0][1]).encrypt(data, 'base64');
-    console.log("Encrypted data: ",val);
-    const value = keys.importKey(key[0][0]).decrypt(val, 'utf8');
-    console.log("Decrypted data: ", value);
-    res.send('done');
-})
 
 module.exports = router;
