@@ -9,6 +9,7 @@ const databaseGenerator = require('./database/create');
 const app = new express();
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cors);
 app.use('/auth', authroute);
 app.use('/message', messageroute);
 

@@ -17,7 +17,7 @@ async function createTables(){
                             throw error;
                         } else {
                             console.log( result);
-                            await conn.query('CREATE TABLE IF NOT EXISTS MESSAGES(ID INT AUTO_INCREMENT PRIMARY KEY, SENDER_ID INT , RECEIVER_ID INT , SENDERDATA TEXT, RECEIVERDATA TEXT, ISREAD INT, SENT_AT DATETIME, FOREIGN KEY (SENDER_ID) REFERENCES USERS(ID), FOREIGN KEY (RECEIVER_ID) REFERENCES USERS(ID));', (error, result)=>{
+                            await conn.query('CREATE TABLE IF NOT EXISTS MESSAGES(ID INT AUTO_INCREMENT PRIMARY KEY, SENDER_ID INT , RECEIVER_ID INT , SENDERDATA TEXT, RECEIVERDATA TEXT, ISREAD INT DEFAULT 0, SENT_AT DATETIME, FOREIGN KEY (SENDER_ID) REFERENCES USERS(ID), FOREIGN KEY (RECEIVER_ID) REFERENCES USERS(ID));', (error, result)=>{
                                 if(error){
                                     throw error;
                                 } else {

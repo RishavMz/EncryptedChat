@@ -48,6 +48,7 @@ router.post('/register', async(req, res) => {
 });
 
 router.post('/login', async(req, res) => {
+    console.log(',vakg');
     if(req.body.username==null || req.body.password==null){
         req.status(400);
         res.send('Incomplete data');
