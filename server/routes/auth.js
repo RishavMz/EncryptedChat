@@ -2,10 +2,6 @@ const express = require('express');
 const router = express.Router();
 const rsa = require('node-rsa');
 const User = require('../models/users');
-const Privatekey = require('../models/privatekey');
-const users = require('../models/users');
-
-const key = [];
 
 router.post('/register', async(req, res) => {
     if(req.body.username==null && req.body.firstname==null && req.body.lastname==null && req.body.password==null && req.body.email==null){
@@ -30,23 +26,19 @@ router.post('/register', async(req, res) => {
         res.status(201);
         res.send("Success");
     } catch (err) {
-        res.status(400);
+        res.status(500);
         res.send(err);
     }
-    res.status(500);
-    res.send('Error');
-    
 });
 
 router.post('/login', async(req, res) => {
-    console.log(',vakg');
     if(req.body.username==null || req.body.password==null){
         req.status(400);
         res.send('Incomplete data');
     }
     try {
-        const userData = await users.findOne({username: req.body.username, password: req.body.password});
-        if(userData === NULL){
+        const userData = await User.findOne({username: req.body.username, password: req.body.password});
+        if(userData === null){
             res.status(200);
             res.send('Cannot find user');
         } else {
@@ -55,10 +47,8 @@ router.post('/login', async(req, res) => {
         }
     } catch(err) {
         res.status(500);
-        res.send('Cannot find user');
+        res.send('Cannot find user1');
     }
-    res.status(200);
-    res.send('Cannot find user');
 });
 
 router.post('/logout', (req, res) => {

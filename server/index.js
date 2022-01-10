@@ -6,12 +6,10 @@ const authroute = require('./routes/auth');
 const messageroute = require('./routes/message');
 const mongoose = require('mongoose');
 
-
-
 const app = new express();
 app.use(bodyParser.json()); 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(cors);
+app.use(cors());
 
 mongoose.connect(process.env.DATABASE_URL);
 const db = mongoose.connection;
