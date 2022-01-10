@@ -4,14 +4,14 @@ import Users from '../users/users';
 import './mainscreen.css';
 
 class Mainscreen extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={}
     }
     render(){
         return(<div className='mainscreen'>
             <Users/>
-            <Chat/>
+            <Chat data = {this.props.data}/>
         </div>);
     }
 }

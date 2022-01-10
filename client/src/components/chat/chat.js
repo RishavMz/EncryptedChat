@@ -4,8 +4,8 @@ import './chat.css';
 import testimg from './dp.png';
 
 class Chat extends React.Component{
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.changehandler = this.changeHandler.bind(this);
         this.handleMessageSent = this.handleMessageSent.bind(this);
         this.state={
@@ -18,7 +18,10 @@ class Chat extends React.Component{
         }
     }
     componentDidMount(){
-        this.setState({privatekey: this.props.privatekey})
+        this.setState({
+            privatekey:this.props.data.privatekey,
+            myname: this.props.data.username,
+        })
     }
     getPublicKey(user){
         this.setState({publickey: user.publickey});
@@ -47,12 +50,6 @@ class Chat extends React.Component{
         this.setState({message:"", messages: messages});
     }
     render(){
-        /*const pk = this.getPublicKey();
-        console.log(this.state.message);
-        const a1 = this.encryptmessage(this.state.message);
-        console.log(a1);
-        const a2 = this.decryptmessage(a1);
-        console.log(a2);*/
         return (<div className='chat'>
             <div className='receiverarea'>
                 <div className='receivername'>John Doe</div>
