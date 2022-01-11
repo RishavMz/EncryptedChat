@@ -49,3 +49,7 @@ STEP 2: Database to receiver
 * The receiver decrypts the message using his own private key.
 * The receiver removes the previously applied salt from the message.
 * Thus, the receiver receives the final message.
+
+
+### Note: These fixes took a lot of time and effort, hence worth noting then down
+> `When user sends a message, it is encrypted by the receiver's public key. Hence, it is stored in database anc can only be recovered by the receiver's private key. Then how can the receiver view his previously sent messages?` When the user sends a message be encrypting it with the receiver's public key, upon reaching the server, a copy of this message is created and is decrypted with the receiver's private key. Now, this is encrypted with the receiver's public key so that it can be decrypted with the sender's private key. Thereaftr, these two message copies encrypted by the sender's and receiver's public keys respectively are stored into the database.

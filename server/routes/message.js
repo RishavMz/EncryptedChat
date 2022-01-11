@@ -18,6 +18,7 @@ router.post('/publickey', async(req, res)=>{
         req.status(200);
         req.send(data);
     } catch(err) {
+        console.log(err)
         req.status(500);
         res.send("Error")
     }
@@ -77,13 +78,30 @@ router.post('/message', async(req, res)=>{
             console.log(err)
             res.status(500);
             res.send('Error');
-        }
-            
-            
-        
+        } 
     }
-    
 });
+
+router.post('/messages', async(req, res)=>{
+    const data = [];
+    try{
+        await User.find({username: req.body.username}).then(async(res)=>{
+            const messages = res[0].messages;
+            for(var i=0; i<messages.length; i++){
+                await Message.findById(messages[i]).then((resp)=>{
+                    console.log(resp)
+                    data.push(resp);
+                });
+            }
+        });
+        res.status(200);
+        res.send(data);
+    } catch(err) {
+        console.log(err)
+        res.status(500);
+        res.send('Error');
+    }
+})
 
 
 module.exports = router;

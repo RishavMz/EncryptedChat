@@ -26,6 +26,7 @@ router.post('/register', async(req, res) => {
         res.status(201);
         res.send("Success");
     } catch (err) {
+        console.log(err)
         res.status(500);
         res.send(err);
     }
@@ -46,6 +47,7 @@ router.post('/login', async(req, res) => {
             res.send(userData);
         }
     } catch(err) {
+        console.log(err)
         res.status(500);
         res.send('Cannot find user1');
     }

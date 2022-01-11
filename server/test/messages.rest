@@ -8,5 +8,9 @@ Content-Type: application/json
 }
 
 ###
+POST http://127.0.0.1:5000/message/messages
+Content-Type: application/json
 
-GET http://127.0.0.1:5000/message/message
+{
+    "username": "noobmaster69"
+}
