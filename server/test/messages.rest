@@ -1,0 +1,8 @@
+POST http://127.0.0.1:5000/message/message 
+Content-Type: application/json
+
+{
+    "username": "rishavmz",
+    "receiver": "noobmaster69",
+    "message" : "I like this one"
+}

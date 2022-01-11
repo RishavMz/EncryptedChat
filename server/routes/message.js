@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const {conn} = require('../database/connection')
+const User = require('../models/users');
+const Message = require('../models/messages');
 
 const message=[];
 
@@ -13,29 +14,51 @@ router.post('/publickey', async(req, res)=>{
         res.status(400);
         res.send('Incomplete data');
     }
-    await conn.query(`SELECT ID FROM USERS WHERE USERNAME='${req.body.username}'`, async(error, result)=>{
-        if(error){
-            throw error;
-        } else {
-            const UserID = result[0].ID;
-            await conn.query(`SELECT KEYDATA FROM PUBLIC_KEYS WHERE USER_ID=${UserID}`, async(error, result)=>{
-                if(error){
-                    throw error;
-                } else {
-                    res.send(result[0].KEYDATA);
-                }
-            });
-        }
-    });
+    try {
+        const data = await User.find({username: req.body.username})[0].publicKey;
+        req.status(200);
+        req.send(data);
+    } catch(err) {
+        req.status(500);
+        res.send("Error")
+    }
 });
 
-router.post('/message', (req, res)=>{
-    if(req.body.senderusername==null || req.body.receiverusername==null || req.body.senderdata==null || req.body.receiverdata==null){
+router.post('/message', async(req, res)=>{
+    if(req.body.username===null || req.body.receiver===null || req.body.message===null){
         res.status(400);
         res.send('Incomplete data');
+    } else {
+        const message1 = new Message({
+            message: req.body.message,
+            sentByMe: true
+        });
+        try {
+            const messageData = new Message({
+                sender: req.body.username,
+                receiver: req.body.receiver,
+                message: req.body.message
+            });
+            await messageData.save()
+            .then(async(res)=>{
+                const messageID = String(res._id);
+                await User.updateOne({username: req.body.username}, 
+                {
+                    $push: {  messages: messageID  }
+                }
+            )});   
+            res.status(200);
+            res.send('OK');
+        } catch (err) {
+            console.log(err)
+            res.status(500);
+            res.send('Error');
+        }
+            
+            
+        
     }
-    res.status(200);
-    res.send('OK');
+    
 });
 
 router.get('/message', (req, res)=>{
