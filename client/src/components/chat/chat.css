@@ -25,6 +25,7 @@
 .message{
     height: auto;
     width: 25vw;
+    word-wrap: break-word;
     max-width: 25vw;
     margin: 2vh;
     padding: 2vh;

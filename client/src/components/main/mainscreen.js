@@ -6,7 +6,11 @@ import './mainscreen.css';
 class Mainscreen extends React.Component{
     constructor(props){
         super(props)
-        this.state={}
+        this.state={
+            data: this.props.data
+        }
+    }
+    componentDidMount(){
     }
     render(){
         return(<div className='mainscreen'>

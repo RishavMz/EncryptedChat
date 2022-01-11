@@ -4,7 +4,17 @@ Content-Type: application/json
 {
     "username": "rishavmz",
     "receiver": "noobmaster69",
-    "message" : "dwUbKTRRJo1QBAlAfqdELYZ/4CtDj7/CC0LZo5l2EvkeAMhukpcxzD1RC0ry76FLjVWtRfARNCv16McAPSGVIAwn/aeU7L0GhBqGYQhk+IUHmx0XD0lC6Q5D4nAynZf7YumrVYWftw6UndbaWYjqUTFPpaXOG42E4+w8U3hCXpcN+2fg8AbRhlqe5anQRUzX0suoQsncuoze7uytydby2Img2WqN4FT6axefOcHtUJG+SrXRG+tT9Lvs+v+rK/3Q2m6ezuVbIUml0u8Z238nKC4hzwZWG31pqFBwkaiiAMD5hI0kWe+B2Yuiti73LGHQZJlljWZKcWFqt1h3oR6nsQ=="
+    "message" : "Uj4zTovlRdd+nnLsq0wFJqktHFvAyWyAMXU2oAo18RTbgaevTkMhoR1cPrT/O8TJr6cETY0HasMJJpIQBvHhyrW6gl68UPhkFEoiiPzYjgd+kA/9Xdm0VvZLUK8BOWHDN8OXeJLBoUsYA1+xoGbiEkai6KfXBlR298u4WanqG8Px/4p4Fn/YsqPTo9lfxAmSD4TbN9IVuE4/yy8r3oT0SvuIK6fmuD3YdCKwBYS43dWnE6/aofaoumaUF3XNmrzGuKLwwZRP2KjcK8ZyPUo1vgyLVdr+Y1xmaVG/pAysGbQCq4wv+UhMHm1oF0kSjrIeQ89jQJZSjPbpv7yEhz4S+w=="
+}
+
+###
+POST http://127.0.0.1:5000/message/message 
+Content-Type: application/json
+
+{
+    "username": "noobmaster69",
+    "receiver": "rishavmz",
+    "message" : "Uj4zTovlRdd+nnLsq0wFJqktHFvAyWyAMXU2oAo18RTbgaevTkMhoR1cPrT/O8TJr6cETY0HasMJJpIQBvHhyrW6gl68UPhkFEoiiPzYjgd+kA/9Xdm0VvZLUK8BOWHDN8OXeJLBoUsYA1+xoGbiEkai6KfXBlR298u4WanqG8Px/4p4Fn/YsqPTo9lfxAmSD4TbN9IVuE4/yy8r3oT0SvuIK6fmuD3YdCKwBYS43dWnE6/aofaoumaUF3XNmrzGuKLwwZRP2KjcK8ZyPUo1vgyLVdr+Y1xmaVG/pAysGbQCq4wv+UhMHm1oF0kSjrIeQ89jQJZSjPbpv7yEhz4S+w=="
 }
 
 ###

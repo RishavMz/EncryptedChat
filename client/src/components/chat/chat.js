@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import JSEncrypt from 'jsencrypt';
 import './chat.css';
 import testimg from './dp.png';
@@ -8,46 +9,73 @@ class Chat extends React.Component{
         super(props);
         this.changehandler = this.changeHandler.bind(this);
         this.handleMessageSent = this.handleMessageSent.bind(this);
+        this.checkNewMessages = this.checkNewMessages.bind(this);
         this.state={
-            privatekey:"",
-            publickey:"",
-            myname: "",
+            receiver: "noobmaster69",
+            privatekey:this.props.data.privateKey,
+            publickey:this.props.data.publicKey,
+            myname: this.props.data.username,
             myabout:"",
             message: "",
             messages : []
         }
     }
-    componentDidMount(){
-        this.setState({
-            privatekey:this.props.data.privatekey,
-            myname: this.props.data.username,
-        })
+    componentDidMount(){            
+        setInterval(()=>{
+            this.checkNewMessages();
+            //console.log(this.props.data.privateKey)
+        }, 5000);
+    }
+    async checkNewMessages(){
+        try{
+            await axios.post(`http://127.0.0.1:5000/message/messages`, {username: this.props.data.username}).then(async(res)=>{
+                const temp = res.data;
+                temp.forEach(async(e)=>{
+                    console.log(e.message);
+                    e.message =  this.decryptmessage(e.message);
+                    console.log(e.message)
+                })
+                this.setState({messages: temp});
+            })
+        } catch(err){
+            console.log(err);
+        }
+        
     }
     getPublicKey(user){
         this.setState({publickey: user.publickey});
     }
-    encryptmessage(message){
+    encryptmessage(message, pkey){
         const encrypt = new JSEncrypt();
-        encrypt.setPublicKey(this.state.publickey);
+        encrypt.setPublicKey(pkey);
         const data = encrypt.encrypt(message);
         return data;
     }
     decryptmessage(message){
         const decrypt = new JSEncrypt();
-        decrypt.setPrivateKey(this.state.privatekey);
-        const data = decrypt.decrypt(message);
-        return data;
+        decrypt.setPrivateKey(this.props.data.privateKey);
+        const dcdata = decrypt.decrypt(message);
+        return dcdata;
     }
     changeHandler = (e) => {
         this.setState({[e.target.name]: e.target.value});
     }
-    handleMessageSent = (e)=>{
+    handleMessageSent = async(e)=>{
         e.preventDefault();
-        const message = this.state.message;
-        const messages = this.state.messages;
-        if(message.length===10)  messages.pop(0);
-        messages.push([1,(message)]);
-        this.setState({message:"", messages: messages});
+        await axios.post(`http://127.0.0.1:5000/message/publickey`,{username: this.state.myname})
+        .then(async(res)=>{
+            await axios.post(`http://127.0.0.1:5000/message/message`, {username: this.state.myname, receiver: this.state.receiver, message: this.encryptmessage(this.state.message, res.data)})
+            .then((res) =>{
+                console.log(res);
+            })
+        })
+        await axios.post(`http://127.0.0.1:5000/message/publickey`,{username: this.state.receiver})
+        .then(async(res)=>{
+            await axios.post(`http://127.0.0.1:5000/message/messageack`, {username: this.state.myname, receiver: this.state.receiver, message: this.encryptmessage(this.state.message, res.data)})
+            .then((res) =>{
+                console.log(res);
+            })
+        })
     }
     render(){
         return (<div className='chat'>
@@ -58,7 +86,7 @@ class Chat extends React.Component{
                 <div className='messagesender'>
                     <div className='messagespace'>
                         {this.state.messages.map((element)=>{
-                            return(<div key={element[1]} className={`message ${element[0]===1?'messagesent':'messagereceived'}`}>{element[1]}</div>)
+                            return(<div key={element._id} className={`message ${(element.sender===this.props.data.username)?'messagesent':'messagereceived'}`}>{element.message}</div>)
                         })}
                     </div>
                     <input className='messagetyper' name="message" onChange={this.changeHandler} value={this.state.message}/>
