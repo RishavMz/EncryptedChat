@@ -27,7 +27,14 @@ class Chat extends React.Component{
             //console.log(this.props.data.privateKey)
         }, 5000);
         setTimeout(() => {
-            this.setState({receiver: this.props.userdata[0].username})
+            console.log(this.props)
+            this.setState({receiver: this.props.data.username})
+        }, 500);
+    }
+    componentDidUpdate(){
+        console.log("Noe")
+        setTimeout(() => {
+            this.setState({receiver: this.props.userdata})
         }, 500);
     }
     async checkNewMessages(){

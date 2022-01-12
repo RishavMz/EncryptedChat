@@ -19,9 +19,13 @@ class Mainscreen extends React.Component{
             //console.log("Data", this.state.userdata)
         })
     }
+    getCurrent=(data)=>{
+        this.setState({userdata: data});
+        console.log(data)
+    }
     render(){
         return(<div className='mainscreen'>
-            <Users userdata = {this.state.userdata}/>
+            <Users userdata = {this.state.userdata} current={this.getCurrent}/>
             <Chat data = {this.props.data} userdata={this.state.userdata}/>
         </div>);
     }
