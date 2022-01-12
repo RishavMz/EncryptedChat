@@ -32,21 +32,24 @@ class Chat extends React.Component{
         }, 500);
     }
     componentDidUpdate(){
-        console.log("Noe")
         setTimeout(() => {
             this.setState({receiver: this.props.userdata})
         }, 500);
     }
     async checkNewMessages(){
         try{
-            await axios.post(`http://127.0.0.1:5000/message/messages`, {username: this.props.data.username}).then(async(res)=>{
+            await axios.post(`http://127.0.0.1:5000/message/messages`, {username: this.props.data.username, receiver: this.props.userdata}).then(async(res)=>{
                 const temp = res.data;
+                const msg = []
                 temp.forEach(async(e)=>{
                     //console.log(e.message);
                     e.message =  this.decryptmessage(e.message);
+                    if(e.receiver===this.props.data.username || e.sender === this.props.data.username){
+                        msg.push(e)
+                    }
                     //console.log(e.message)
                 })
-                this.setState({messages: temp});
+                this.setState({messages: msg});
             })
         } catch(err){
             console.log(err);
@@ -92,13 +95,13 @@ class Chat extends React.Component{
     render(){
         return (<div className='chat'>
             <div className='receiverarea'>
-                <div className='receivername'>{this.state.receiver}</div>
+                <div className='receivername'>Sending Message To: {this.state.receiver}</div>
             </div>
             <div className='messagearea'>
                 <div className='messagesender'>
                     <div className='messagespace'>
                         {this.state.messages.map((element)=>{
-                            return(<div key={element._id} className={`message ${(element.sender===this.props.data.username)?'messagesent':'messagereceived'}`}>{element.message}</div>)
+                            return(<div key={element._id} className={`message ${(element.sender===this.props.data.username)?'messagesent':'messagereceived'}`}><b>{element.sender}:</b>{element.message}</div>)
                         })}
                     </div>
                     <input className='messagetyper' name="message" onChange={this.changeHandler} value={this.state.message}/>
