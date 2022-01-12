@@ -98,7 +98,7 @@ router.post('/messages', async(req, res)=>{
         await User.find({username: req.body.username}).then(async(res)=>{
             const messages = res[0].messages;
             for(var i=0; i<messages.length; i++){
-                await Message.findById(messages[i]).then((resp)=>{
+                await Message.find({_id:messages[i], receiver: req.body.receiver}).then((resp)=>{
                     console.log(resp)
                     data.push(resp);
                 });
