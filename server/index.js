@@ -4,6 +4,7 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const authroute = require('./routes/auth');
 const messageroute = require('./routes/message');
+const userroute = require('./routes/users');
 const mongoose = require('mongoose');
 
 const app = new express();
@@ -17,6 +18,7 @@ db.on('error', (error) => console.log(error));
 
 app.use('/auth', authroute);
 app.use('/message', messageroute);
+app.use('/user', userroute);
 
 app.get('/', (req, res)=> {
     res.send('Got some request');

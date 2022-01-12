@@ -11,7 +11,7 @@ class Chat extends React.Component{
         this.handleMessageSent = this.handleMessageSent.bind(this);
         this.checkNewMessages = this.checkNewMessages.bind(this);
         this.state={
-            receiver: "noobmaster69",
+            receiver: "",
             privatekey:this.props.data.privateKey,
             publickey:this.props.data.publicKey,
             myname: this.props.data.username,
@@ -20,20 +20,24 @@ class Chat extends React.Component{
             messages : []
         }
     }
-    componentDidMount(){            
+    componentDidMount(){     
+        this.checkNewMessages();       
         setInterval(()=>{
             this.checkNewMessages();
             //console.log(this.props.data.privateKey)
         }, 5000);
+        setTimeout(() => {
+            this.setState({receiver: this.props.userdata[0].username})
+        }, 500);
     }
     async checkNewMessages(){
         try{
             await axios.post(`http://127.0.0.1:5000/message/messages`, {username: this.props.data.username}).then(async(res)=>{
                 const temp = res.data;
                 temp.forEach(async(e)=>{
-                    console.log(e.message);
+                    //console.log(e.message);
                     e.message =  this.decryptmessage(e.message);
-                    console.log(e.message)
+                    //console.log(e.message)
                 })
                 this.setState({messages: temp});
             })
@@ -66,21 +70,22 @@ class Chat extends React.Component{
         .then(async(res)=>{
             await axios.post(`http://127.0.0.1:5000/message/message`, {username: this.state.myname, receiver: this.state.receiver, message: this.encryptmessage(this.state.message, res.data)})
             .then((res) =>{
-                console.log(res);
+                //console.log(res);
             })
         })
         await axios.post(`http://127.0.0.1:5000/message/publickey`,{username: this.state.receiver})
         .then(async(res)=>{
             await axios.post(`http://127.0.0.1:5000/message/messageack`, {username: this.state.myname, receiver: this.state.receiver, message: this.encryptmessage(this.state.message, res.data)})
             .then((res) =>{
-                console.log(res);
+                //console.log(res);
             })
         })
+        this.setState({message: ""})
     }
     render(){
         return (<div className='chat'>
             <div className='receiverarea'>
-                <div className='receivername'>John Doe</div>
+                <div className='receivername'>{this.state.receiver}</div>
             </div>
             <div className='messagearea'>
                 <div className='messagesender'>
@@ -96,7 +101,7 @@ class Chat extends React.Component{
             <div className='userviewer'>
                 <div className='viewuser viewreceiver'>
                     <img className='viewdp' src= {testimg} height={150} alt='receiver'/>
-                    <div className='viewname'>John Doe</div>
+                    <div className='viewname'>{this.state.receiver}</div>
                     <div className='viewabout'>Hi there, I am not using this app</div>
                 </div>
                 <div className='viewuser viewme'>
